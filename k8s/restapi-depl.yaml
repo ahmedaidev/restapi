@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: restapi-depl
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: restapi
+  template:
+    metadata:
+      labels:
+        app: restapi
+    spec:
+      containers:
+        - name: restapi
+          image: ahmedaidev/restapi:1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          livenessProbe:
+            periodSeconds: 5
+            httpGet:
+              path: /
+              port: 3000
+          readinessProbe:
+            periodSeconds: 5
+            httpGet:
+              path: /
+              port: 3000
+          resources:
+            requests:
+              memory: 128Mi
+              cpu: 200m
+            limits:
+              memory: 256Mi
+              cpu: 400m
+          lifecycle:
+            postStart:
+              exec:
+                command: ['npx', 'prisma', 'migrate', 'deploy']
