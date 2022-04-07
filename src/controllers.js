@@ -1,80 +1,80 @@
-const pool = require('./db')
-const queries = require('./queries')
+const prisma = require('./db')
 
-const getStudents = (req, res) => {
-  pool.query(queries.getStudents, (errors, results) => {
-    if (errors) throw errors
-    res.status(200).json(results.rows)
-  })
-}
-
-const getStudentById = (req, res) => {
-  const id = +req.params.id
-
-  pool.query(queries.getStudentById, [id], (errors, results) => {
-    if (errors) throw errors
-    res.status(200).json(results.rows)
-  })
-}
-
-const addStudent = (req, res) => {
-  const { name, email, age, dob } = req.body
-  // Check if email exists
-  pool.query(queries.checkEmailExists, [email], (errors, results) => {
-    if (results.rows.length) {
-      res.status(400).send('Email already exists!')
-    }
-
-    // Add student to db
-    pool.query(
-      queries.addStudent,
-      [name, email, +age, dob],
-      (errors, results) => {
-        if (errors) throw errors
-        res.status(201).json({ success: 'Student created' })
-      }
-    )
-  })
-}
-
-const removeStudent = (req, res) => {
-  const id = +req.params.id
-
-  pool.query(queries.getStudentById, [id], (errors, results) => {
-    console.log(results.rows.length)
-    const student = results.rows.length
-    if (!student) {
-      res.status(400).send('No Student Found')
-    }
-
-    pool.query(queries.removeStudent, [id], (errors, results) => {
-      if (errors) throw errors
-      res.status(200).json({ success: 'Student deleted' })
+const getProducts = async (req, res, next) => {
+  try {
+    const products = await prisma.product.findMany({
+      include: { category: true },
     })
-  })
+    res.status(200).json(products)
+  } catch (error) {
+    next(error)
+  }
 }
 
-const updateStudent = (req, res) => {
-  const id = +req.params.id
-  const { name } = req.body
-
-  pool.query(queries.getStudentById, [id], (errors, results) => {
-    const student = results.rows.length
-    if (!student) {
-      res.status(400).send('No Student Found')
-    }
-
-    pool.query(queries.updateStudent, [name, id], (errors, results) => {
-      if (errors) throw errors
-      res.status(200).json({ success: 'Student updated' })
+const getProductById = async (req, res, next) => {
+  try {
+    const { id } = req.params
+    const product = await prisma.product.findUnique({
+      where: {
+        id: +id,
+      },
+      include: {
+        category: true,
+      },
     })
-  })
+    res.status(200).json(product)
+  } catch (error) {
+    next(error)
+  }
+}
+
+const createProduct = async (req, res, next) => {
+  try {
+    const product = await prisma.product.create({
+      data: req.body,
+    })
+    res.status(201).json(product)
+  } catch (error) {
+    next(error)
+  }
+}
+
+const deleteProduct = async (req, res, next) => {
+  try {
+    const { id } = req.params
+    const product = await prisma.product.delete({
+      where: {
+        id: +id,
+      },
+    })
+    res.status(200).json({ message: 'success' })
+  } catch (error) {
+    next(error)
+  }
+}
+
+const updateProduct = async (req, res, next) => {
+  try {
+    const { id } = req.params
+    const product = await prisma.product.update({
+      where: {
+        id: +id,
+      },
+      data: req.body,
+      include: {
+        category: true,
+      },
+    })
+    res.status(200).json(product)
+  } catch (error) {
+    next(error)
+  }
 }
 
 module.exports = {
-  getStudents,
-  getStudentById,
-  addStudent,
-  removeStudent,
-  updateStudent,
+  getProducts,
+  getProductById,
+  createProduct,
+  deleteProduct,
+  updateProduct,
 }
