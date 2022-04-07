@@ -1,12 +1,12 @@
 const { Router } = require('express')
-const controller = require('./controllers')
+const controllers = require('./controllers')
 
 const router = Router()
 
-router.get('/', controller.getStudents)
-router.post('/', controller.addStudent)
-router.get('/:id', controller.getStudentById)
-router.put('/:id', controller.updateStudent)
-router.delete('/:id', controller.removeStudent)
+router.get('/products', controllers.getProducts)
+router.get('/products/:id', controllers.getProductById)
+router.post('/products', controllers.createProduct)
+router.delete('/products/:id', controllers.deleteProduct)
+router.patch('/products/:id', controllers.updateProduct)
 
 module.exports = router
