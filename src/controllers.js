@@ -2,9 +2,7 @@ const prisma = require('./db')
 
 const getProducts = async (req, res, next) => {
   try {
-    const products = await prisma.product.findMany({
-      include: { category: true },
-    })
+    const products = await prisma.product.findMany({})
     res.status(200).json(products)
   } catch (error) {
     next(error)
@@ -17,9 +15,6 @@ const getProductById = async (req, res, next) => {
     const product = await prisma.product.findUnique({
       where: {
         id: +id,
-      },
-      include: {
-        category: true,
       },
     })
     res.status(200).json(product)
@@ -61,9 +56,6 @@ const updateProduct = async (req, res, next) => {
         id: +id,
       },
       data: req.body,
-      include: {
-        category: true,
-      },
     })
     res.status(200).json(product)
   } catch (error) {
