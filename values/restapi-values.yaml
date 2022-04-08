@@ -1,0 +1,3 @@
+appImagePolicy: Always
+appReplicas: 2
+serviceType: LoadBalancer

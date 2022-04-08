@@ -35,7 +35,3 @@ spec:
             limits:
               memory: 256Mi
               cpu: 400m
-          lifecycle:
-            postStart:
-              exec:
-                command: ['npx', 'prisma', 'migrate', 'deploy']

@@ -5,9 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon ./server.js",
-    "start": "node ./server.js",
-    "generate": "prisma generate",
-    "migrate": "prisma migrate dev --skip-generate"
+    "start": "node ./server.js"
   },
   "keywords": [],
   "author": "",
