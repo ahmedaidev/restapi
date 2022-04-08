@@ -1,2 +1,2 @@
 #!/usr/bin/bash
-docker exec -it restapi npm -- run migrate
+docker exec -it restapi npx -- prisma migrate dev
