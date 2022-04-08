@@ -1,0 +1,19 @@
+appName: postgres
+appReplicas: 1
+volumeName: postgres-volume
+appImage: postgres
+appVersion: 14
+containerPort: 5432
+containerMountPath: /var/lib/postgresql/data
+subPath: postgres
+containerEnvVars:
+  - name: POSTGRES_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: password
+        key: POSTGRES_PASSWORD
+
+serviceType: ClusterIP
+servicePort: 5432
+
+appStorageSize: 5Gi
