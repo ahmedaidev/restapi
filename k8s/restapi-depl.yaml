@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: restapi
-          image: ahmedaidev/restapi:1.0
+          image: ahmedaidev/restapi:2.0
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
