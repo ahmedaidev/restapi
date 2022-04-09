@@ -14,8 +14,14 @@ spec:
     spec:
       containers:
         - name: restapi
-          image: ahmedaidev/restapi:2.0
+          image: ncrir.duckdns.org/restapi:1.0.3
           imagePullPolicy: IfNotPresent
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: url
+                  key: DATABASE_URL
           ports:
             - containerPort: 3000
           livenessProbe:

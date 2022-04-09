@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-migrate
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "0"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      name: db-migrate
+    spec: 
+      activeDeadlineSeconds: 60
+      restartPolicy: Never
+      imagePullSecrets:
+        - name: ncrircred
+      containers:
+        - name: db-migrate
+          image: "ncrir.duckdns.org/restapi:1.0.3"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: url
+                  key: DATABASE_URL
+          command:
+            - npx
+            - prisma
+            - migrate
+            - deploy
+      terminationGracePeriodSeconds: 0
+  backoffLimit: 3
+  completions: 1
+  parallelism: 1

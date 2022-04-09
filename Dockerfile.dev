@@ -1,7 +1,4 @@
 FROM node:lts-alpine
-
-ENV DATABASE_URL="postgresql://postgres:postgres@db:5432/postgres?schema=public"
-
 WORKDIR /app
 COPY ./package.json ./
 RUN npm install

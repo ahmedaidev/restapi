@@ -1,3 +1,4 @@
-appImagePolicy: Always
+appImage: ncrir.duckdns.org/restapi
 appReplicas: 2
+
 serviceType: LoadBalancer
