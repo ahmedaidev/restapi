@@ -1,23 +1,30 @@
 version: '3'
 
 services:
-  db:
-    container_name: restapi_db
-    image: postgres
+  postgres:
+    container_name: restapi_postgres
+    image: postgres:14
     environment:
       POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     ports:
       - 5432:5432
 
-  app:
+  restapi:
     container_name: restapi
     depends_on:
-      - db
+      - postgres
     build:
       context: ./
       dockerfile: Dockerfile.dev
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/postgres?schema=public
     volumes:
       - /app/node_modules
       - ./:/app
     ports:
       - 3000:3000
+
+volumes:
+  postgres_data:

@@ -1,12 +1,15 @@
 appName: restapi
 appImage: ahmedaidev/restapi
 appImagePolicy: IfNotPresent
-appVersion: v1.0.0
+appVersion: 1.0.3
 appReplicas: 1
 containerPort: 3000
-containerEnvVars:
+containerEnvSecrets:
   - name: DATABASE_URL
-    value: "postgresql://postgres:postgres@postgres:5432/postgres?schema=public"
+    valueFrom:
+      secretKeyRef:
+        name: url
+        key: DATABASE_URL
 
 serviceType: ClusterIP
 servicePort: 3000

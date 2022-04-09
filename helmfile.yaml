@@ -1,8 +1,8 @@
 releases:
   - name: postgres
-    chart: charts/postgres
+    chart: ./charts/postgres
   - name: restapi
-    chart: charts/restapi
+    chart: ./charts/restapi
     values:
-      - values/restapi-values.yaml
+      - ./k8s/values/restapi-values.yaml
     

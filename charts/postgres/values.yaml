@@ -6,11 +6,11 @@ appVersion: 14
 containerPort: 5432
 containerMountPath: /var/lib/postgresql/data
 subPath: postgres
-containerEnvVars:
+containerEnvSecrets:
   - name: POSTGRES_PASSWORD
     valueFrom:
       secretKeyRef:
-        name: password
+        name: pgpassword
         key: POSTGRES_PASSWORD
 
 serviceType: ClusterIP
