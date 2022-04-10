@@ -16,6 +16,4 @@ containerEnvSecrets:
 serviceType: ClusterIP
 servicePort: 5432
 
-appStorageSize: 5Gi
-
 appPassword: postgres
