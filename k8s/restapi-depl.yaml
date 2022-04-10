@@ -25,12 +25,10 @@ spec:
           ports:
             - containerPort: 3000
           livenessProbe:
-            periodSeconds: 5
             httpGet:
               path: /
               port: 3000
           readinessProbe:
-            periodSeconds: 5
             httpGet:
               path: /
               port: 3000
